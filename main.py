@@ -63,9 +63,15 @@ def score_display(game_state):
         screen.blit(score_surface, score_rect)
 
         high_score_surface = game_font.render(
-            f'High score: {int(score)}', True, (255, 255, 255))
+            f'High score: {int(high_score)}', True, (255, 255, 255))
         high_score_rect = high_score_surface.get_rect(center=(288, 850))
         screen.blit(high_score_surface, high_score_rect)
+
+
+def update_score(score, high_score):
+    if score > high_score:
+        high_score = score
+    return high_score
 
 
 pygame.init()
@@ -127,6 +133,7 @@ while True:
                 pipe_list.clear()
                 bird_rect.center = (100, 512)
                 bird_movement = 0
+                score = 0
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
@@ -156,6 +163,7 @@ while True:
         score_display('main_game')
 
     else:
+        high_score = update_score(score, high_score)
         score_display('game_over')
 
     # Floor
