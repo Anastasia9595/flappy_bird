@@ -10,8 +10,9 @@ def draw_floor():
 
 def create_pipe():
     random_pipe_pos = random.choice(pipe_height)
-    bottom_pipe = pipe_surface.get_rect(midtop=(700, random_pipe_pos))
-    top_pipe = pipe_surface.get_rect(midbottom=(700, random_pipe_pos-300))
+    bottom_pipe = pipe_surface_green.get_rect(midtop=(700, random_pipe_pos))
+    top_pipe = pipe_surface_green.get_rect(
+        midbottom=(700, random_pipe_pos-300))
     return top_pipe, bottom_pipe
 
 
@@ -23,12 +24,22 @@ def move_pipes(pipes):
 
 
 def draw_pipes(pipes):
+    global score
     for pipe in pipes:
         if pipe.bottom >= 1024:
-            screen.blit(pipe_surface, pipe)
-        else:
-            flip_pipe = pygame.transform.flip(pipe_surface, False, True)
-            screen.blit(flip_pipe, pipe)
+            if score < 2:
+                screen.blit(pipe_surface_green, pipe)
+            else:
+                screen.blit(pipe_surface_red, pipe)
+        elif pipe.bottom < 1024:
+            if score < 2:
+                flip_pipe_green = pygame.transform.flip(
+                    pipe_surface_green, False, True)
+                screen.blit(flip_pipe_green, pipe)
+            else:
+                flip_pipe_red = pygame.transform.flip(
+                    pipe_surface_red, False, True)
+                screen.blit(flip_pipe_red, pipe)
 
 
 def check_collision(pipes):
@@ -127,8 +138,12 @@ bird_rect = bird_surface.get_rect(center=(100, 512))
 BIRDFLAP = pygame.USEREVENT + 1
 pygame.time.set_timer(BIRDFLAP, 200)
 
-pipe_surface = pygame.image.load("assets/pipe-green.png").convert()
-pipe_surface = pygame.transform.scale2x(pipe_surface)
+pipe_surface_green = pygame.image.load("assets/pipe-green.png").convert()
+pipe_surface_green = pygame.transform.scale2x(pipe_surface_green)
+
+pipe_surface_red = pygame.image.load("assets/pipe-red.png").convert()
+pipe_surface_red = pygame.transform.scale2x(pipe_surface_red)
+
 pipe_list = []
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1200)
