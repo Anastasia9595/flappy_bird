@@ -27,12 +27,12 @@ def draw_pipes(pipes):
     global score
     for pipe in pipes:
         if pipe.bottom >= 1024:
-            if score < 2:
+            if score < 50:
                 screen.blit(pipe_surface_green, pipe)
             else:
                 screen.blit(pipe_surface_red, pipe)
         elif pipe.bottom < 1024:
-            if score < 2:
+            if score < 50:
                 flip_pipe_green = pygame.transform.flip(
                     pipe_surface_green, False, True)
                 screen.blit(flip_pipe_green, pipe)
